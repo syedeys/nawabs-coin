@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nawabs Token - Official Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .token-info {
+            margin: 30px 0;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .airdrop-form {
+            margin: 30px 0;            padding: 20px;            background: #fff;            border-radius: 10px;            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);        }        input[type="text"] {            width: 80%;            max-width: 400px;            padding: 10px;            margin-bottom: 15px;            border: 1px solid #ccc;            border-radius: 5px;        }        button {            padding: 10px 20px;            background-color: #27ae60;            color: white;            border: none;            border-radius: 5px;            cursor: pointer;            font-size: 16px;        }        button:hover {            background-color: #1e8449;        }        footer {            margin-top: 30px;            text-align: center;            color: #555;            padding: 10px 0;        }    </style></head><body>    <header>        <h1>Nawabs Token</h1>        <p>The Royal Cryptocurrency Inspired by India's Glorious Heritage</p>    </header>    <div class="container">        <div class="token-info">            <h2>About Nawabs Token</h2>            <p>Nawabs Token is a unique cryptocurrency inspired by the opulence and grandeur of the Nawabs of India. Join us on our journey to revolutionize the digital economy while celebrating our rich cultural heritage.</p>            <p><strong>Token Symbol:</strong> NAWABS</p>            <p><strong>Total Supply:</strong> 100,000,000</p>        </div>        <div class="airdrop-form">            <h2>Claim Your Airdrop</h2>            <p>Enter your MetaMask wallet address below to claim your free Nawabs Tokens.</p>            <form id="airdropForm">                <input type="text" id="walletAddress" placeholder="Enter your wallet address" required>                <br>                <button type="submit">Claim Airdrop</button>            </form>            <div id="responseMessage"></div>        </div>    </div>    <footer>        <p>&copy; 2024 Nawabs Token. All rights reserved.</p>    </footer>    <script>        const form = document.getElementById('airdropForm');        const responseMessage = document.getElementById('responseMessage');        form.addEventListener('submit', (e) => {            e.preventDefault();            const walletAddress = document.getElementById('walletAddress').value;            if (!walletAddress.startsWith('0x') || walletAddress.length !== 42) {                responseMessage.innerHTML = '<p style="color: red;">Invalid wallet address. Please try again.</p>';                return;            }            responseMessage.innerHTML = `<p style="color: green;">Thank you! Your wallet address (${walletAddress}) has been submitted.</p>`;        });    </script></body></html>
