@@ -1,2 +1,2 @@
 # nawabs-coin
-Official website for Nawabs Coin
+Official Nawabs Token website
