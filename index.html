@@ -92,7 +92,7 @@
     let signer;
     let contract;
 
-    const contractAddress = "YOUR_CONTRACT_ADDRESS"; // Replace this
+    const contractAddress = "YOUR_CONTRACT_ADDRESS"; // Replace with your actual contract address
     const contractABI = [
       {
         "inputs": [
@@ -107,28 +107,40 @@
     ];
 
     async function connectWallet() {
-      if (window.ethereum) {
-        provider = new ethers.BrowserProvider(window.ethereum);
-        signer = await provider.getSigner();
-        const address = await signer.getAddress();
-        document.getElementById("walletAddressDisplay").innerText = `Connected Wallet: ${address}`;
-        contract = new ethers.Contract(contractAddress, contractABI, signer);
-      } else {
-        alert("MetaMask not found. Please install it.");
+      try {
+        if (window.ethereum) {
+          provider = new ethers.BrowserProvider(window.ethereum);
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          signer = await provider.getSigner();
+          const address = await signer.getAddress();
+          document.getElementById("walletAddressDisplay").innerText = `Connected Wallet: ${address}`;
+          contract = new ethers.Contract(contractAddress, contractABI, signer);
+        } else {
+          alert("MetaMask not found. Please install it.");
+        }
+      } catch (error) {
+        console.error("Wallet connection failed:", error);
+        document.getElementById("walletAddressDisplay").innerText = "❌ Wallet connection failed.";
       }
     }
 
     async function claimAirdrop() {
-      const address = await signer.getAddress();
-      const tokenAmount = ethers.parseUnits("100", 18); // 100 tokens
       try {
+        if (!signer || !contract) {
+          alert("Please connect your wallet first.");
+          return;
+        }
+
+        const address = await signer.getAddress();
+        const tokenAmount = ethers.parseUnits("100", 18); // 100 tokens with 18 decimals
+
         const tx = await contract.airdropTokens(address, tokenAmount);
         document.getElementById("airdropStatus").innerText = "Transaction sent. Waiting for confirmation...";
         await tx.wait();
         document.getElementById("airdropStatus").innerText = "✅ Airdrop successful! Check your wallet.";
       } catch (error) {
-        console.error(error);
-        document.getElementById("airdropStatus").innerText = "❌ Airdrop failed. Check logs or wallet permissions.";
+        console.error("Airdrop failed:", error);
+        document.getElementById("airdropStatus").innerText = "❌ Airdrop failed. Please check the console for errors.";
       }
     }
   </script>
