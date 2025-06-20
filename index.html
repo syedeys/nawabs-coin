@@ -1,41 +1,137 @@
-<script>
-  let provider;
-  let signer;
-  let contract;
-
-  const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE"; // Replace after deploy
-  const contractABI = [
-    {
-      "inputs": [],
-      "name": "claimAirdrop",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nawabs Token Airdrop</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #f4e2d8, #ba5370);
+      color: #2c3e50;
     }
-  ];
-
-  async function connectWallet() {
-    if (window.ethereum) {
-      provider = new ethers.BrowserProvider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      signer = await provider.getSigner();
-      const address = await signer.getAddress();
-      document.getElementById("walletAddressDisplay").innerText = `Connected: ${address}`;
-      contract = new ethers.Contract(contractAddress, contractABI, signer);
-    } else {
-      alert("MetaMask not detected");
+    header {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+      font-family: 'Cinzel', serif;
     }
-  }
-
-  async function claimAirdrop() {
-    try {
-      const tx = await contract.claimAirdrop();
-      document.getElementById("airdropStatus").innerText = "⏳ Claiming in progress...";
-      await tx.wait();
-      document.getElementById("airdropStatus").innerText = "✅ Airdrop successful! Check your wallet.";
-    } catch (err) {
-      console.error("Error:", err);
-      document.getElementById("airdropStatus").innerText = "❌ Airdrop failed. You may have already claimed or not connected properly.";
+    header h1 {
+      font-size: 48px;
+      margin: 0;
     }
-  }
-</script>
+    header p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .container {
+      max-width: 700px;
+      background-color: #fff;
+      margin: 40px auto;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+    button {
+      background-color: #8e44ad;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #732d91;
+    }
+    input {
+      padding: 10px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+    footer {
+      background: #1a1a1a;
+      color: #ccc;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nawabs Token</h1>
+    <p>Claim your cultural airdrop — Powered by History, Delivered by Blockchain</p>
+  </header>
+
+  <div class="container">
+    <h2>Step into Royalty</h2>
+    <p>Connect your wallet and claim your FREE $NAWABS tokens!</p>
+    <button onclick="connectWallet()">🔌 Connect MetaMask</button>
+    <p id="walletAddressDisplay"></p>
+
+    <h3>🎁 Claim Airdrop</h3>
+    <button onclick="claimAirdrop()">Claim Tokens</button>
+    <p id="airdropStatus"></p>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Nawabs Coin | Crafted with Heritage and Web3 💎</p>
+  </footer>
+
+  <script>
+    let provider;
+    let signer;
+    let contract;
+
+    const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE"; // Replace with deployed contract address
+    const contractABI = [
+      {
+        "inputs": [],
+        "name": "claimAirdrop",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ];
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        document.getElementById("walletAddressDisplay").innerText = `Connected: ${address}`;
+        contract = new ethers.Contract(contractAddress, contractABI, signer);
+      } else {
+        alert("MetaMask not detected");
+      }
+    }
+
+    async function claimAirdrop() {
+      try {
+        if (!signer || !contract) {
+          alert("Please connect your wallet first.");
+          return;
+        }
+
+        const tx = await contract.claimAirdrop();
+        document.getElementById("airdropStatus").innerText = "⏳ Claiming in progress...";
+        await tx.wait();
+        document.getElementById("airdropStatus").innerText = "✅ Airdrop successful! Check your wallet.";
+      } catch (err) {
+        console.error("Error:", err);
+        document.getElementById("airdropStatus").innerText = "❌ Airdrop failed. You may have already claimed or encountered an error.";
+      }
+    }
+  </script>
+</body>
+</html>
