@@ -3,7 +3,7 @@
   let signer;
   let contract;
 
-  const contractAddress = "YOUR_DEPLOYED_CONTRACT_ADDRESS";
+  const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE"; // Replace after deploy
   const contractABI = [
     {
       "inputs": [],
@@ -23,19 +23,19 @@
       document.getElementById("walletAddressDisplay").innerText = `Connected: ${address}`;
       contract = new ethers.Contract(contractAddress, contractABI, signer);
     } else {
-      alert("MetaMask not found.");
+      alert("MetaMask not detected");
     }
   }
 
   async function claimAirdrop() {
     try {
       const tx = await contract.claimAirdrop();
-      document.getElementById("airdropStatus").innerText = "⏳ Waiting for confirmation...";
+      document.getElementById("airdropStatus").innerText = "⏳ Claiming in progress...";
       await tx.wait();
       document.getElementById("airdropStatus").innerText = "✅ Airdrop successful! Check your wallet.";
     } catch (err) {
-      console.error(err);
-      document.getElementById("airdropStatus").innerText = "❌ Claim failed. You may have already claimed.";
+      console.error("Error:", err);
+      document.getElementById("airdropStatus").innerText = "❌ Airdrop failed. You may have already claimed or not connected properly.";
     }
   }
 </script>
